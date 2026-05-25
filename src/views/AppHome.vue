@@ -41,7 +41,7 @@
     }
 
     async function loadSummaryMeal() {
-        const res = await fetch(`http://localhost:3000/api/meals/${selectedDate.value}/summary`, {
+        const res = await fetch(`http://193.233.133.68/api/meals/${selectedDate.value}/summary`, {
             headers: {
                 Authorization: `Bearer ${auth.token}`
             }
@@ -51,7 +51,7 @@
     }
 
     const submitMeal = async () => {
-        await fetch('http://localhost:3000/api/meals', {
+        await fetch('http://193.233.133.68/api/meals', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@
 
 
     async function submitWeight() {
-        const res = await fetch('http://localhost:3000/api/weight', {
+        const res = await fetch('http://193.233.133.68/api/weight', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -154,7 +154,7 @@
     }
 
     async function fetchWeightHistory() {
-        const res = await fetch('http://localhost:3000/api/weight-history',{
+        const res = await fetch('http://193.233.133.68/api/weight-history',{
             headers: {
                 Authorization: `Bearer ${auth.token}`
             }
@@ -163,7 +163,7 @@
     }
 
     async function loadStats() {
-        const res = await fetch(`http://localhost:3000/api/daily-stats/${selectedDate.value}`, {
+        const res = await fetch(`http://193.233.133.68/api/daily-stats/${selectedDate.value}`, {
             headers: {
                 Authorization: `Bearer ${auth.token}`
             }
@@ -174,7 +174,7 @@
     }
 
     async function saveStats() {
-        await fetch('http://localhost:3000/api/daily-stats', {
+        await fetch('http://193.233.133.68/api/daily-stats', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
