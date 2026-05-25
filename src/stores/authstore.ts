@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('auth', {
             } 
 
             try {
-                const res = await fetch('http://localhost:3000/api/profile', {
+                const res = await fetch('https://leanlyapi.duckdns.org/api/profile', {
                     headers: { Authorization: `Bearer ${this.token}`}
                 })
 
