@@ -7,7 +7,7 @@
     <AppHeader>
 
     </AppHeader>
-    <main class="flex flex-col min-h-160 h-dvh items-center justify-center">
+    <main class="flex flex-col items-center justify-center mt-40 mb-40 md:mt-60 md:mb-60">
         <slot></slot>
     </main>
     <AppFooter>

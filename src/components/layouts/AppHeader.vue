@@ -9,11 +9,12 @@
                     <span class="absolute -rotate-45 w-10 rounded-xl h-1.5 bg-[#343300] dark:bg-[#cdd0d4] group-active:bg-[#419400] dark:group-active:bg-[#818cf8] transition-colors duration-100"></span>
                 </button>
     
-                <div v-if="auth.isAuthChecked && auth.user" class="flex flex-col gap-2 mt-20 ml-4 md:mt-0 md:mx-auto md:flex-row">
-                    <RouterLink class="text-[#343300] dark:text-[#cdd0d4] w-fit font-medium dark:hover:text-[#2d93bf] dark:active:text-[#3abdf7] hover:text-[#347800] active:text-[#419400] transition-colors duration-100" to="/">Home</RouterLink>
-                    <RouterLink class="text-[#343300] dark:text-[#cdd0d4] w-fit font-medium dark:hover:text-[#2d93bf] dark:active:text-[#3abdf7] hover:text-[#347800] active:text-[#419400] transition-colors duration-100" to="/profile">Profile</RouterLink>
-                    <RouterLink class="text-[#343300] dark:text-[#cdd0d4] w-fit font-medium dark:hover:text-[#2d93bf] dark:active:text-[#3abdf7] hover:text-[#347800] active:text-[#419400] transition-colors duration-100" to="/graphs">Graphs</RouterLink>
-                    <RouterLink class="text-[#343300] dark:text-[#cdd0d4] w-fit font-medium dark:hover:text-[#2d93bf] dark:active:text-[#3abdf7] hover:text-[#347800] active:text-[#419400] transition-colors duration-100" to="/recepies">Recepies</RouterLink>
+                <div v-if="auth.isAuthChecked && auth.user" class="flex flex-col gap-5 mt-20 ml-4 md:mt-0 md:mx-auto md:flex-row">
+                    <HeaderNavLink to="/">Dashboard</HeaderNavLink>
+                    <HeaderNavLink to="/meals-diary">Meals Diary</HeaderNavLink>
+                    <HeaderNavLink to="/profile">Profile</HeaderNavLink>
+                    <HeaderNavLink to="/graphs">Graphs</HeaderNavLink>
+                    <HeaderNavLink to="/recepies">Recepies</HeaderNavLink>
                 </div>
 
                 <button @click="toggleTheme" class="flex ml-4 mt-40 group items-center justify-center bg-[#00000000] hover:bg-[#e1e6d9] dark:hover:bg-[#13203a] active:bg-[#afb4a6] transition-colors duration-100 cursor-pointer rounded-3xl w-12 h-12 md:mt-0"
@@ -57,6 +58,7 @@
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/authstore';
 import { chartKey } from '@/keys/chartKey';
+import HeaderNavLink from '../ui/HeaderNavLink.vue';
 
 const auth = useAuthStore();
 

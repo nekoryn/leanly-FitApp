@@ -1,5 +1,6 @@
 import type { User } from '@/types/user'
 import { defineStore } from 'pinia'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -28,7 +29,7 @@ export const useAuthStore = defineStore('auth', {
             } 
 
             try {
-                const res = await fetch('https://leanlyapi.duckdns.org/api/profile', {
+                const res = await fetch(`${API_BASE_URL}/profile`, {
                     headers: { Authorization: `Bearer ${this.token}`}
                 })
 
