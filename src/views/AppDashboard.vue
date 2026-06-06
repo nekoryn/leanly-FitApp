@@ -52,8 +52,8 @@
 
 <template>
     <DefaultLayout>
-        <section class="flex flex-col gap-3 md:w-3xl lg:w-5xl">
-            <h2 class="text-2xl dark:text-[#c9cbd0] font-bold md:text-3xl md:w-3xl">Суточная норма калорий для</h2>
+        <section class="flex flex-col gap-3 w-90 md:w-3xl lg:w-5xl">
+            <h2 class="text-xl dark:text-[#c9cbd0] text-center font-bold md:text-left md:text-3xl md:w-3xl">Суточная норма калорий для</h2>
             <div class="flex flex-col items-center gap-3">
                 <div class="flex items-stretch md:w-3xl lg:w-5xl">
                     <div class="bg-[#419400] flex items-center justify-center px-4 py-8 dark:bg-[#3abdf7] w-30 rounded-l-xl md:flex-1 md:text-xl">
