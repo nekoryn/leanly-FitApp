@@ -5,13 +5,20 @@
     import { useRegisterStore } from '@/stores/register';
     import FormInput from '@/components/ui/FormInput.vue';
     import FormHeader from '@/components/ui/FormHeader.vue';
+    import { ref } from 'vue';
 
     const router = useRouter();
 
     const register = useRegisterStore();
 
+    const confirmPassword = ref('')
+
     const nextStep = () => {
-        router.push('/register/step-2')
+        if (register.password !== confirmPassword.value) {
+            
+        } else {
+            router.push('/register/step-2')
+        }
     }
 </script>
 <template>
@@ -30,7 +37,7 @@
                     Пароль
                 </FormInput>
 
-                <FormInput id="confirmPassword" name="confirmPassword" type="password" placeholder="Введите пароль" minlength="10" maxlength="128" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{10,128}$" required>
+                <FormInput v-model="confirmPassword" id="confirmPassword" name="confirmPassword" type="password" placeholder="Введите пароль" minlength="10" maxlength="128" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{10,128}$" required>
                     Подтвердите пароль
                 </FormInput>
 

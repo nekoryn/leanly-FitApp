@@ -7,8 +7,7 @@
     import type { Meal } from '@/types/meal';
     import { isMealsExist } from '@/api/mealsApi.ts';
     import { mealsErrors } from '@/api/mealsApi.ts';
-    import FormInputError from '@/components/ui/FormInputError.vue';
-import DefaultSection from '@/components/ui/DefaultSection.vue';
+    import DefaultSection from '@/components/ui/DefaultSection.vue';
 
 
     
@@ -67,13 +66,18 @@ import DefaultSection from '@/components/ui/DefaultSection.vue';
             </template>
             
             <template #mainContent>
-                <form @submit.prevent="handleSubmitWeight" class="flex flex-col gap-2 p-2 md:p-4 md:gap-4">
-                    <div>
-                        <FormInput v-model="mealName" id="mealName" name="mealName" type="text" placeholder="Введите название блюда или блюд" minlength="2" maxlength="100" @validation="mealsErrors.meal_name = $event">
+                <form @submit.prevent="handleSubmitWeight" class="flex flex-col p-2 gap-2 md:p-4 md:gap-4">
+
+                    <FormInput v-model="mealName" id="mealName" name="mealName" type="text" placeholder="Введите название блюда или блюд" minlength="2" maxlength="100" @validation="mealsErrors.meal_name = $event">
+                        <template #inputLabel>
                             Название блюда
-                        </FormInput>
-                        <FormInputError v-if="mealsErrors.meal_name">{{ mealsErrors.meal_name }}</FormInputError>
-                    </div>
+                        </template>
+
+                        <template #inputError v-if="mealsErrors.meal_name">
+                            {{ mealsErrors.meal_name }}
+                        </template>
+                    </FormInput>
+
     
                     <div class="w-full dark:text-[#c9cbd0]">
                         <label class="ml-1 md:text-xl" for="everydayActivity">Прием пищи</label>
@@ -85,33 +89,47 @@ import DefaultSection from '@/components/ui/DefaultSection.vue';
                         </select>
                     </div>
     
-                    <div>
-                        <FormInput v-model="calories" id="mealBmi" name="mealBmi" type="number" placeholder="Введите пищевую ценность блюда" min="0" max="5000" @validation="mealsErrors.calories = $event">
+
+                    <FormInput v-model="calories" id="mealBmi" name="mealBmi" type="number" placeholder="Введите пищевую ценность блюда" min="0" max="5000" @validation="mealsErrors.calories = $event">
+                        <template #inputLabel>
                             Пищевая ценность (ккал)
-                        </FormInput>
-                        <FormInputError v-if="mealsErrors.calories">{{ mealsErrors.calories }}</FormInputError>
-                    </div>
-    
-                    <div>
-                        <FormInput v-model="proteins" id="mealProteins" name="mealProteins" type="number" placeholder="Введите количество белков (в гр.)" min="0" max="400" @validation="mealsErrors.proteins = $event">
+                        </template>
+                        
+                        <template #inputError v-if="mealsErrors.calories">
+                            {{ mealsErrors.calories }}
+                        </template>
+                    </FormInput>
+
+                    <FormInput v-model="proteins" id="mealProteins" name="mealProteins" type="number" placeholder="Введите количество белков (в гр.)" min="0" max="400" @validation="mealsErrors.proteins = $event">
+                        <template #inputLabel>
                             Белки
-                        </FormInput>
-                        <FormInputError v-if="mealsErrors.proteins">{{ mealsErrors.proteins }}</FormInputError>
-                    </div>
+                        </template>
+
+                        <template #inputError v-if="mealsErrors.proteins">
+                            {{ mealsErrors.proteins }}
+                        </template>
+                    </FormInput>
     
-                    <div>
-                        <FormInput v-model="fats" id="mealFats" name="mealFats" type="number" placeholder="Введите количество жиров (в гр.)" min="0" max="300" @validation="mealsErrors.fats = $event">
+                    <FormInput v-model="fats" id="mealFats" name="mealFats" type="number" placeholder="Введите количество жиров (в гр.)" min="0" max="300" @validation="mealsErrors.fats = $event">
+                        <template #inputLabel>
                             Жиры
-                        </FormInput>
-                        <FormInputError v-if="mealsErrors.fats">{{ mealsErrors.fats }}</FormInputError>
-                    </div>
+                        </template>
+                        
+                        <template #inputError v-if="mealsErrors.fats">
+                            {{ mealsErrors.fats }}
+                        </template>
+                    </FormInput>
     
-                    <div>
-                        <FormInput v-model="carbs" id="mealCarbs" name="mealCarbs" type="number" placeholder="Введите количество углеводов (в гр.)" min="0" max="500" @validation="mealsErrors.carbs = $event">
+
+                    <FormInput v-model="carbs" id="mealCarbs" name="mealCarbs" type="number" placeholder="Введите количество углеводов (в гр.)" min="0" max="500" @validation="mealsErrors.carbs = $event">
+                        <template #inputLabel>
                             Углеводы
-                        </FormInput>
-                        <FormInputError v-if="mealsErrors.carbs">{{ mealsErrors.carbs }}</FormInputError>
-                    </div>
+                        </template>
+
+                        <template #inputError v-if="mealsErrors.carbs">
+                            {{ mealsErrors.carbs }}
+                        </template>
+                    </FormInput>
     
                     <NextStepBtn>
                         Обновить

@@ -3,7 +3,7 @@
     
         <label class="ml-1 md:text-xl"
         :for="id">
-            <slot></slot>
+            <slot name="inputLabel"></slot>
         </label>
 
         <input
@@ -22,6 +22,8 @@
             :maxlength="maxlength"
             @input="onInput"
             />
+
+        <p class="text-[#fb7085] ml-2 my-2" v-if="$slots.inputError"><slot name="inputError"></slot></p>
 
     </div>
 </template>

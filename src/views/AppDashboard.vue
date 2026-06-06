@@ -9,7 +9,6 @@
     import type { WeightHistory } from '@/types/weightHistory';
     import { targetCalories } from '@/services/calories';
     import { loadStats, saveStats, isTodayStatsExist, statsErrors } from '@/api/statsApi';
-    import FormInputError from '@/components/ui/FormInputError.vue';
     import DefaultSection from '@/components/ui/DefaultSection.vue';
 
 
@@ -94,9 +93,14 @@
                 <form @submit.prevent="handleSubmitWeight" class="p-2 md:p-4">
                     <div>
                         <FormInput v-model="currentWeight" id="currentWeight" name="currentWeight" placeholder="Введите вес в кг" type="number" max="250" min="0" @validation="weightIssueMessage = $event">
-                            Введите ваш текущий вес
+                            <template #inputLabel>
+                                Введите ваш текущий вес
+                            </template>
+
+                            <template #inputError v-if="weightIssueMessage">
+                                {{ weightIssueMessage }}
+                            </template>
                         </FormInput>
-                        <FormInputError v-if="weightIssueMessage">{{ weightIssueMessage }}</FormInputError>
                     </div>
     
                     <NextStepBtn>
@@ -123,23 +127,38 @@
                 <form @submit.prevent="handleSubmitSummary" class="flex flex-col gap-2 p-2 md:p-4">
                     <div>
                         <FormInput v-model="steps" id="stepsCount" name="stepsCount" type="number" placeholder="Введите количество шагов" min="0" max="200000" @validation="statsErrors.steps = $event">
-                            Количество шагов
+                            <template #inputLabel>
+                                Количество шагов
+                            </template>
+
+                            <template #inputError v-if="statsErrors.steps">
+                                {{ statsErrors.steps }}
+                            </template>
                         </FormInput>
-                        <FormInputError v-if="statsErrors.steps">{{ statsErrors.steps }}</FormInputError>
                     </div>
     
                     <div>
                         <FormInput v-model="burnedCalories" id="burnedKcal" name="burnedKcal" type="number" placeholder="Введите количество (в ккал)" min="0" max="10000" @validation="statsErrors.burned_calories = $event">
-                            Сожжено калорий
+                            <template #inputLabel>
+                                Сожжено калорий
+                            </template>
+
+                            <template #inputError v-if="statsErrors.burned_calories">
+                                {{ statsErrors.burned_calories }}
+                            </template>
                         </FormInput>
-                        <FormInputError v-if="statsErrors.burned_calories">{{ statsErrors.burned_calories }}</FormInputError>
                     </div>
     
                     <div>
                         <FormInput v-model="waterMl" id="waterDrinked" name="waterDrinked" type="number" placeholder="Введите количество (в мл)" min="0" max="15000" @validation="statsErrors.water_ml = $event">
-                            Выпито воды
+                            <template #inputLabel>
+                                Выпито воды
+                            </template>
+
+                            <template #inputError v-if="statsErrors.water_ml">
+                                {{ statsErrors.water_ml }}
+                            </template>
                         </FormInput>
-                        <FormInputError v-if="statsErrors.water_ml">{{ statsErrors.water_ml }}</FormInputError>
                     </div>
     
                     <NextStepBtn>
