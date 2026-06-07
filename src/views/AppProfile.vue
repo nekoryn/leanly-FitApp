@@ -24,7 +24,8 @@
             router.push('/auth')
             toast.success(res)
         } catch (err) {
-            toast.error(err)
+            console.log(err)
+            toast.error('Неизвестная ошибка, попробуйте позже.')
         }
     }
 </script>
