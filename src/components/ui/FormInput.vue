@@ -49,7 +49,7 @@ import { computed, ref } from 'vue';
         min?: number | string
         max?: number | string
         pattern?: string
-        step?: number
+        step?: number | string
         minlength?: number | string
         maxlength?: number | string
         autocomplete?: string

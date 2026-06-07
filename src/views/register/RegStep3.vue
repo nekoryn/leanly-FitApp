@@ -55,7 +55,7 @@
                 </select>
             </div>
 
-            <FormInput v-model="register.goalWeight" id="goalWeight" name="goalWeight" placeholder="Введите вес в кг" type="number" min="30" max="250" required @validation="registerErrors.goalWeight = $event">
+            <FormInput v-model="register.goalWeight" id="goalWeight" name="goalWeight" placeholder="Введите вес в кг" type="number" min="30" max="250" step="0.1" required @validation="registerErrors.goalWeight = $event">
                 <template #inputLabel>
                     Сколько бы хотели весить?
                 </template>
