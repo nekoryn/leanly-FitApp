@@ -38,7 +38,7 @@ export const submitReg = async () => {
             throw new Error(data.message)
         }
 
-        return 'ok'
+        return data.message
     } catch (err) {
         return 'error'
     }

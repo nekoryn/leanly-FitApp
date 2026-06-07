@@ -2,10 +2,12 @@ import type { AuthPayload } from '@/types/authPayload';
 import { useAuthStore } from '@/stores/authstore';
 import { ref } from 'vue';    
 import type { ValidationIssue } from '@/types/validationIssues';
+import { useToast } from 'vue-toastification';
 
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const toast = useToast()
 
 export const authErrors = ref<Record<string, string>>({})   
 
@@ -21,10 +23,9 @@ export const submitAuth = async (payload: AuthPayload) => {
     
         const data = await res.json();
     
-        console.log(data.token)
-    
         if (data.token) {
             auth.setToken(data.token)
+            toast.success('Успешный вход!')
         }
 
         if (res.status === 422) {
@@ -35,13 +36,16 @@ export const submitAuth = async (payload: AuthPayload) => {
 
         if (res.status === 401) {
             authErrors.value['password'] = 'Неверный пароль'
+            toast.error('Неверный пароль')
         }
 
         if (res.status === 404) {
             authErrors.value['email'] = 'Пользователь с таким email не найден'
+            toast.error('Пользователь не найден')
         }
 
     } catch (err) {
         console.log('Error during authentication:', err)
+        toast.error('Не удалось войти, попробуйте позже')
     }
 } 

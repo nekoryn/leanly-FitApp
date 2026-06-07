@@ -14,6 +14,7 @@
 
     function logoutClicked() {
         auth.logOut()
+        toast.success('Вы вышли из аккаунта')
         router.push('/auth')
     }
 

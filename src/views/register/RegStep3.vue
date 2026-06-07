@@ -7,18 +7,22 @@
     import { useRegisterStore } from '@/stores/register';
     import RegisterSteps from '@/components/ui/RegisterSteps.vue';
     import { useRouter } from 'vue-router';
+    import { useToast } from 'vue-toastification';
 
     const register = useRegisterStore();
     const router = useRouter()
+    const toast = useToast()
 
     async function submitRegHandle() {
         const res = await submitReg();
 
-        if (res === 'ok') {
+        if (res === 'error') {
+            console.log(registerErrors.value)
+            toast.error('Не удалось создать пользователя.')
+        } else {
+            toast.success('Пользователь создан успешно!')
             router.push('/auth')
             register.$reset()
-        } else {
-            console.log(registerErrors.value)
         }
     }
 </script>
