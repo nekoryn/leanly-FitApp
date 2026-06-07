@@ -44,7 +44,7 @@ async function handleSubmitAuth() {
             </div>
 
             <div>
-                <FormInput v-model="password" name="password" id="password" placeholder="Введите пароль" type="password" @validation="authErrors.password = $event">
+                <FormInput v-model="password" name="password" id="password" placeholder="Введите пароль" type="password" minlength="10" maxlength="128" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{10,128}$" @validation="authErrors.password = $event">
                     <template #inputLabel>
                         Пароль
                     </template>

@@ -66,7 +66,24 @@ import { computed, ref } from 'vue';
     const onInput = (e: Event) => {
         const input = e.target as HTMLInputElement
         emit('update:modelValue', input.value)
-        emit('validation', input.validationMessage)
+        
+        if (input.validity.valueMissing) {
+            emit('validation', 'Заполните это поле.')
+        } else if (input.validity.tooShort) {
+            emit('validation', `Минимум ${props.minlength} символов(-а)`)
+        } else if (input.validity.tooLong) {
+            emit('validation', `Максимум ${props.maxlength} символов`)
+        } else if (input.validity.patternMismatch && props.type === 'password') {
+            emit('validation', 'Пароль должен содержать цифру, строчную и заглавную букву')
+        } else if (input.validity.rangeUnderflow) {
+            emit('validation', `Слишком маленькое значение. Минимум ${props.min}`)
+        } else if (input.validity.rangeOverflow) {
+            emit('validation', `Слишком большое значение. Максмум ${props.max}`)
+        } else if (input.validity.typeMismatch) {
+            emit('validation', input.validationMessage)
+        } else {
+            emit('validation', '')
+        }
     }
 
     const computedType = computed(() => {

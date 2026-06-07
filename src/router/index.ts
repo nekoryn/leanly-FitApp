@@ -9,6 +9,7 @@ import { useAuthStore } from '@/stores/authstore'
 import AppGraphs from '@/views/AppGraphs.vue'
 import AppRecepies from '@/views/AppRecepies.vue'
 import AppMealsDiary from '@/views/AppMealsDiary.vue'
+import { useRegisterStore } from '@/stores/register'
 
 
 const router = createRouter({
@@ -16,8 +17,8 @@ const router = createRouter({
   routes: [
     { path: '/', component: Dashboard, meta: { requiersAuth: true} },
     { path: '/register/step-1', component: RegStep1, meta: { guestOnly: true } }, 
-    { path: '/register/step-2', component: RegStep2, meta: { guestOnly: true } },
-    { path: '/register/step-3', component: RegStep3, meta: { guestOnly: true } },
+    { path: '/register/step-2', component: RegStep2, meta: { guestOnly: true, requireRegisterStep1: true } },
+    { path: '/register/step-3', component: RegStep3, meta: { guestOnly: true, requireRegisterStep1: true, requireRegisterStep2: true } },
     { path: '/profile', component: AppProfile, meta: { requiersAuth: true} },
     { path: '/auth', component: AppAuth, meta: { guestOnly: true } },
     { path: '/graphs', component: AppGraphs, meta: { requiersAuth: true} },
@@ -39,6 +40,30 @@ router.beforeEach(async (to) => {
 
   if (to.meta.guestOnly && auth.token) {
     return '/'
+  }
+
+  if (to.meta.requireRegisterStep1) {
+    const register = useRegisterStore()
+    if (
+      !register.nickname ||
+      !register.email || 
+      !register.password
+    ) {
+      return '/register/step-1'
+    }
+  }
+
+  if (to.meta.requireRegisterStep2) {
+    const register = useRegisterStore()
+
+    if (
+      !register.userWeight ||
+      !register.userHeight ||
+      !register.userAge ||
+      !register.gender
+    ) {
+      return '/register/step-2'
+    }
   }
 })
 
