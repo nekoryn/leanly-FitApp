@@ -14,15 +14,17 @@
     const toast = useToast()
 
     async function submitRegHandle() {
-        const res = await submitReg();
 
-        if (res === 'error') {
-            console.log(registerErrors.value)
-            toast.error('Не удалось создать пользователя.')
-        } else {
+        try {
+            const res = await submitReg();
             toast.success('Пользователь создан успешно!')
+            console.log("Успех", res)
+            console.log(registerErrors.value)
             router.push('/auth')
             register.$reset()
+        } catch (err) {
+            console.log(err)
+            toast.error('Не удалось создать пользователя.')
         }
     }
 </script>
