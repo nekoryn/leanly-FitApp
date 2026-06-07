@@ -20,12 +20,16 @@
     async function deleteClicked() {
         try {
             const res = await deleteProfile()
-            auth.logOut()
-            router.push('/auth')
             toast.success(res)
-        } catch (err) {
+        } catch (err: unknown) {
+            const message =
+                err instanceof Error
+                    ? err.message
+                    : 'Неизвестная ошибка'
+
+    toast.error(message)
+
             console.log(err)
-            toast.error('Неизвестная ошибка, попробуйте позже.')
         }
     }
 </script>
