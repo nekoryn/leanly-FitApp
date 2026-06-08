@@ -30,7 +30,4 @@ import AppFooter from '@/components/layouts/AppFooter.vue';
 import AppHeader from '@/components/layouts/AppHeader.vue';
 import SettingsNavbar from '@/components/layouts/SettingsNavbar.vue';
 import SettingsLinkButton from '@/components/ui/SettingsLinkButton.vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute()
 </script>
