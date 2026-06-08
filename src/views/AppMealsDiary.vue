@@ -90,7 +90,7 @@
                     </div>
     
 
-                    <FormInput v-model="calories" id="mealBmi" name="mealBmi" type="number" placeholder="Введите пищевую ценность блюда" min="0" max="5000" step="0.1" @validation="mealsErrors.calories = $event">
+                    <FormInput v-model="calories" id="mealBmi" name="mealBmi" type="number" placeholder="Введите пищевую ценность блюда" min="0" max="5000" @validation="mealsErrors.calories = $event">
                         <template #inputLabel>
                             Пищевая ценность (ккал)
                         </template>
@@ -100,7 +100,7 @@
                         </template>
                     </FormInput>
 
-                    <FormInput v-model="proteins" id="mealProteins" name="mealProteins" type="number" placeholder="Введите количество белков (в гр.)" min="0" max="400" step="0.1" @validation="mealsErrors.proteins = $event">
+                    <FormInput v-model="proteins" id="mealProteins" name="mealProteins" type="number" placeholder="Введите количество белков (в гр.)" min="0" max="400" step="0.01" @validation="mealsErrors.proteins = $event">
                         <template #inputLabel>
                             Белки
                         </template>
@@ -110,7 +110,7 @@
                         </template>
                     </FormInput>
     
-                    <FormInput v-model="fats" id="mealFats" name="mealFats" type="number" placeholder="Введите количество жиров (в гр.)" min="0" max="300" step="0.1" @validation="mealsErrors.fats = $event">
+                    <FormInput v-model="fats" id="mealFats" name="mealFats" type="number" placeholder="Введите количество жиров (в гр.)" min="0" max="300" step="0.01" @validation="mealsErrors.fats = $event">
                         <template #inputLabel>
                             Жиры
                         </template>
@@ -121,7 +121,7 @@
                     </FormInput>
     
 
-                    <FormInput v-model="carbs" id="mealCarbs" name="mealCarbs" type="number" placeholder="Введите количество углеводов (в гр.)" min="0" max="500" step="0.1" @validation="mealsErrors.carbs = $event">
+                    <FormInput v-model="carbs" id="mealCarbs" name="mealCarbs" type="number" placeholder="Введите количество углеводов (в гр.)" min="0" max="500" step="0.01" @validation="mealsErrors.carbs = $event">
                         <template #inputLabel>
                             Углеводы
                         </template>

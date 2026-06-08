@@ -81,6 +81,8 @@ import { computed, ref } from 'vue';
             emit('validation', `Слишком большое значение. Максмум ${props.max}`)
         } else if (input.validity.typeMismatch) {
             emit('validation', input.validationMessage)
+        } else if (input.validity.stepMismatch) {
+            emit('validation', `Слишком много знаков после запятой. Следуйте шаблону: ${props.step}`)
         } else {
             emit('validation', '')
         }

@@ -92,7 +92,7 @@
             <template #mainContent>
                 <form @submit.prevent="handleSubmitWeight" class="p-2 md:p-4">
                     <div>
-                        <FormInput v-model="currentWeight" id="currentWeight" name="currentWeight" placeholder="Введите вес в кг" type="number" max="250" min="0" step="0.1" @validation="weightIssueMessage = $event">
+                        <FormInput v-model="currentWeight" id="currentWeight" name="currentWeight" placeholder="Введите вес в кг" type="number" max="250" min="0" step="0.01" @validation="weightIssueMessage = $event">
                             <template #inputLabel>
                                 Введите ваш текущий вес
                             </template>

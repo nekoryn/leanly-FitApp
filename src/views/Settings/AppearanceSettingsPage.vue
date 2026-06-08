@@ -1,16 +1,21 @@
 <template>
-    <div class="flex justify-between border border-[#cbcfc3] dark:border-[#1e293b] rounded-2xl items-center p-2 transition-colors duration-100">
-        <p>Сменить тему</p>
-        <ThemeButton @click="toggleTheme">
-
-        </ThemeButton>
-    </div>
+    <SettingsSection>
+        <template #text>
+            Сменить тему
+        </template>
+        <template #action>
+            <ThemeButton @click="toggleTheme">
+    
+            </ThemeButton>
+        </template>
+    </SettingsSection>
 </template>
 
 <script setup lang="ts">
 import { chartKey } from '@/keys/chartKey';
 import { ref, onMounted} from 'vue';
 import ThemeButton from '@/components/ui/ThemeButton.vue';
+import SettingsSection from '@/components/ui/SettingsSection.vue';
 
 const isDark = ref(false);
 

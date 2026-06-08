@@ -21,7 +21,7 @@ import { registerErrors } from '@/api/registerApi/registerFinallApi';
     <RegLayout>
         <FormHeader>Регистрация: шаг 2</FormHeader>
         <form @submit.prevent="nextStep" class="w-full flex mt-4 flex-col gap-3 items-center justify-center">
-            <FormInput v-model="register.userWeight" id="userWeight" name="userWeight" min="30" max="250" step="0.1" placeholder="Введите вес (в кг)" type="number" @validation="registerErrors.userWeight = $event" required>
+            <FormInput v-model="register.userWeight" id="userWeight" name="userWeight" min="30" max="250" step="0.01" placeholder="Введите вес (в кг)" type="number" @validation="registerErrors.userWeight = $event" required>
                 <template #inputLabel>
                     Сколько вы весите?
                 </template>
@@ -31,7 +31,7 @@ import { registerErrors } from '@/api/registerApi/registerFinallApi';
                 </template>
             </FormInput>
 
-            <FormInput v-model="register.userHeight" id="userHeight" name="userHeight" min="120" max="240" step="0.1" placeholder="Введите рост (в см)" type="number" required @validation="registerErrors.userHeight = $event">
+            <FormInput v-model="register.userHeight" id="userHeight" name="userHeight" min="120" max="240" step="0.01" placeholder="Введите рост (в см)" type="number" required @validation="registerErrors.userHeight = $event">
                 <template #inputLabel>
                     Какой у вас рост?
                 </template>

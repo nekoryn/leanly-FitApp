@@ -3,9 +3,8 @@
     import { useAuthStore } from '@/stores/authstore';
     import { useRouter } from 'vue-router';
     import { bmi, weightLeft, bmiToString, goalToString, activityToSting } from '@/services/profileService.ts';
-    import { deleteProfile } from '@/api/deleteProfileApi';
     import { useToast } from 'vue-toastification'
-import RedButton from '@/components/ui/RedButton.vue';
+    import RedButton from '@/components/ui/RedButton.vue';
 
     
     const router = useRouter()
@@ -19,22 +18,6 @@ import RedButton from '@/components/ui/RedButton.vue';
         router.push('/auth')
     }
 
-    async function deleteClicked() {
-        try {
-            const res = await deleteProfile()
-            auth.logOut()
-            router.push('/auth')
-            toast.success(res)
-        } catch (err: unknown) {
-            const message =
-                err instanceof Error
-                    ? err.message
-                    : 'Неизвестная ошибка'
-            
-            toast.error(message)
-            console.log(err)
-        }
-    }
 </script>
 
 <template>
@@ -63,10 +46,7 @@ import RedButton from '@/components/ui/RedButton.vue';
                     <p class="md:text-xl">До желаемого веса осталось: {{ weightLeft ?? '' }} Кг</p>
                 </div>
                 
-                <div class="flex justify-between items-center w-full">
-                    <RedButton @click="deleteClicked">Удалить профиль</RedButton>
-                    <RedButton @click="logoutClicked">Выйти</RedButton>
-                </div>
+                <RedButton class="mt-2" @click="logoutClicked">Выйти</RedButton>
             </div>
         </section>
     </DefaultLayout>
