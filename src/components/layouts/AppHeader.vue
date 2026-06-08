@@ -9,8 +9,9 @@
                 Leanly</RouterLink>
             <nav id="navbar"
                 class="fixed w-60 h-screen z-2 text-2xl top-0 right-0 bg-[#cbcfc3] dark:bg-[#0f172a] rounded-l-2xl transition-all duration-100 ease-in-out md:relative md:flex md:flex-1 md:items-center md:w-fit md:h-fit md:translate-x-0 dark:md:bg-[#00000000] md:bg-[#00000000] md:text-xl"
-                :class="isOpen ? 'translate-x-0 right-0' : 'translate-x-full'">
-                <button @click="toggleMenu"
+                :class="isOpen ? 'translate-x-0 right-0' : 'translate-x-full'"
+                ref="navRef">
+                <button ref="burgerBtn" @click="toggleMenu"
                     class="flex top-8.5 left-47.5 relative w-10 h-10 items-center group right-0 cursor-pointer md:hidden">
                     <span
                         class="absolute rotate-45 w-10 rounded-xl h-1.5 bg-[#343300] dark:bg-[#cdd0d4] group-active:bg-[#419400] dark:group-active:bg-[#818cf8] transition-colors duration-100"></span>
@@ -51,9 +52,11 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authstore';
 import HeaderNavLink from '../ui/HeaderNavLink.vue';
 import SettingsButton from '../ui/SettingsButton.vue';
+import { onClickOutside } from '@vueuse/core';
 
 const auth = useAuthStore();
 
+const navRef = ref<HTMLElement | null>(null)
 
 const isOpen = ref(false);
 
@@ -64,5 +67,9 @@ defineProps<{
 function toggleMenu() {
     isOpen.value = !isOpen.value;
 }
+
+onClickOutside(navRef, () => {
+    isOpen.value = false
+})
 
 </script>
