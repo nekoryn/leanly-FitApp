@@ -8,6 +8,7 @@
     import { isMealsExist } from '@/api/mealsApi.ts';
     import { mealsErrors } from '@/api/mealsApi.ts';
     import DefaultSection from '@/components/ui/DefaultSection.vue';
+    import { summaryMeal } from '@/api/mealsApi.ts';
 
 
     
@@ -23,12 +24,7 @@
         new Date().toLocaleDateString('en-CA')
     )
 
-    const summaryMeal = ref({
-        totalCalories: 0,
-        totalProteins: 0,
-        totalFats: 0,
-        totalCarbs: 0,
-    })
+    
 
     async function handleSubmitMeal() {
         await submitMeal({

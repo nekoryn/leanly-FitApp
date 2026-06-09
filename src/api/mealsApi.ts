@@ -8,6 +8,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export const isMealsExist = ref(false);
 export const mealsErrors = ref<Record<string, string>>({})
 
+export const summaryMeal = ref({
+    totalCalories: 0,
+    totalProteins: 0,
+    totalFats: 0,
+    totalCarbs: 0,
+})
+
 export async function submitMeal(payload: CreateMealPlayload) {
     const auth = useAuthStore()
     const res = await fetch(`${API_BASE_URL}/meals/`, { 

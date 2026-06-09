@@ -9,4 +9,5 @@ export type User = {
     activity: string
     goal: string
     goalWeight: number
+    userStartWeight: number
 }

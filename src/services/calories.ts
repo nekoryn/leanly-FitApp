@@ -39,7 +39,7 @@ const tdee = computed(() => {
     return bmrValue * (multipliers[user.activity] || 1.2)
 })
 
-export function targetCalories(goal: string) {
+export function targetCalories(goal: string | undefined) {
     const base = tdee.value
 
     switch (goal) {

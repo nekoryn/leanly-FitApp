@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import FormInput from '@/components/ui/FormInput.vue';
     import NextStepBtn from '@/components/ui/NextStepBtn.vue';
     import DefaultLayout from '@/layout/DefaultLayout.vue';
@@ -9,9 +9,17 @@
     import DefaultSection from '@/components/ui/DefaultSection.vue';
     import WeightChart from '@/components/charts/WeightChart.vue';
     import { weights } from '@/api/weightApi';
+    import { useAuthStore } from '@/stores/authstore';
+    import { loadSummaryMeal, summaryMeal } from '@/api/mealsApi';
+    import ProgressBar from '@/components/ui/ProgressBar.vue';
 
+    const auth = useAuthStore()
 
     const currentWeight = ref('')
+
+    const startWeight = ref(0)
+    const userCurrentWeight = ref(0)
+
     const steps = ref('')
     const burnedCalories = ref('')
     const waterMl = ref('')
@@ -28,6 +36,17 @@
         await submitWeight(Number(currentWeight.value))
         weights.value = await fetchWeightHistory()
         currentWeight.value = ''
+        await updateWeightData()
+    }
+
+    async function updateWeightData() {
+        const history = await fetchWeightHistory()
+        weights.value = history
+        
+        if (history && history.length > 0) {
+            startWeight.value = auth.user?.userStartWeight ?? 0
+            userCurrentWeight.value = history.at(-1)?.weight ?? 0
+        }
     }
 
     async function handleSubmitSummary() {
@@ -41,45 +60,62 @@
         todayStats.value = await loadStats(selectedDate.value)
     }
 
+    const calsPercent = computed(() => {
+        const totalCals = summaryMeal.value.totalCalories
+        const calsLimit = targetCalories(auth.user?.goal).toFixed(0);
+
+        const percent = (Number(totalCals) / (Number(calsLimit) / 100));
+
+        return percent
+    })
+
+    const ciloPercentLoss = computed(() => {
+        const startUserWeight = startWeight.value
+        const currentWeight = userCurrentWeight.value
+        const goalWeight = auth.user?.goalWeight ?? 0
+
+        const percent = ((startUserWeight - currentWeight) / (startUserWeight - goalWeight)) * 100
+
+        return percent > 0 ? percent : 0
+    })
+
+    const ciloPercentPross = computed(() => {
+        const startUserWeight = startWeight.value
+        const currentWeight = userCurrentWeight.value
+        const goalWeight = auth.user?.goalWeight ?? 0 
+        console.log(startUserWeight, currentWeight, goalWeight)
+
+        const percent = ((currentWeight - startUserWeight) / (goalWeight - startUserWeight)) * 100
+
+        console.log('PROSS',percent)
+        return percent > 0 ? percent : 0
+    })
+
+    
+
 
     onMounted(async () => {
-        weights.value = await fetchWeightHistory()
+        await updateWeightData()
         todayStats.value = await loadStats(selectedDate.value)
+        summaryMeal.value = await loadSummaryMeal(selectedDate.value)
     })
 </script>
 
 <template>
     <DefaultLayout>
-        <section class="flex flex-col gap-3 w-90 md:w-3xl lg:w-5xl">
-            <h2 class="text-xl dark:text-[#c9cbd0] text-center font-bold md:text-left md:text-3xl md:w-3xl">Суточная норма калорий для</h2>
-            <div class="flex flex-col items-center gap-3">
-                <div class="flex items-stretch md:w-3xl lg:w-5xl">
-                    <div class="bg-[#419400] flex items-center justify-center px-4 py-8 dark:bg-[#3abdf7] w-30 rounded-l-xl md:flex-1 md:text-xl">
-                        <p>Сброса веса</p>
-                    </div>
-                    <div class="bg-[#f8fdef] w-50 flex flex-col items-center justify-center dark:bg-[#0a1120] rounded-r-xl p-4 transition-colors duration-100 md:p-7 md:py-15 md:flex-1 ">
-                        <p class="text-2xl font-semibold dark:text-[#c9cbd0]">{{ targetCalories('fit').toFixed(0) }} ККАЛ</p>
-                    </div>
-                </div>
-    
-                <div class="flex items-stretch md:w-3xl lg:w-5xl">
-                    <div class="bg-[#419400] flex items-center justify-center px-4 py-8 dark:bg-[#3abdf7] w-30 rounded-l-xl md:flex-1 md:text-xl ">
-                        <p>Поддержания веса</p>
-                    </div>
-                    <div class="bg-[#f8fdef] w-50 flex flex-col items-center justify-center dark:bg-[#0a1120] rounded-r-xl p-4 transition-colors duration-100 md:p-7 md:py-15 md:flex-1 ">
-                        <p class="text-2xl font-semibold dark:text-[#c9cbd0]" >{{ targetCalories('weightMaintenance').toFixed(0) }} ККАЛ</p>
-                    </div>
-                </div>
-    
-                <div class="flex items-stretch md:w-3xl lg:w-5xl">
-                    <div class="bg-[#419400] flex items-center justify-center px-4 py-8 dark:bg-[#3abdf7] w-30 rounded-l-xl md:flex-1 md:text-xl">
-                        <p>Набора мышечной массы</p>
-                    </div>
-                    <div class="bg-[#f8fdef] w-50 flex flex-col items-center justify-center dark:bg-[#0a1120] rounded-r-xl p-4 transition-colors duration-100 md:p-7 md:py-15 md:flex-1">
-                        <p class="text-2xl font-semibold dark:text-[#c9cbd0]">{{ targetCalories('bodyBuild').toFixed(0) }} ККАЛ</p>
-                    </div>
-                </div>
-            </div>
+        <section class="flex flex-col gap-3 w-90 items-center md:w-3xl lg:w-5xl">
+            <h2 class="text-xl dark:text-[#c9cbd0] w-75 font-bold md:text-left md:text-3xl md:w-3xl lg:w-5xl">Мой прогресс</h2>
+            <ProgressBar :style="{ width: calsPercent + '%'}">
+                {{ summaryMeal.totalCalories ? summaryMeal.totalCalories : 0 }} / {{ targetCalories(auth.user?.goal).toFixed(0) }} Ккал
+            </ProgressBar>
+            <ProgressBar v-if="auth.user?.goal !== 'weightMaintenance'" :style="{ width: auth.user?.goal === 'fit' ? ciloPercentLoss + '%' : ciloPercentPross + '%'}">
+                <span v-if="auth.user?.goal === 'fit'">
+                    {{ auth.user.userStartWeight - userCurrentWeight > 0 ? auth.user.userStartWeight - userCurrentWeight : 0 }} / {{ auth.user.userStartWeight - auth.user.goalWeight }} Кг сброшено
+                </span>
+                <span v-if="auth.user?.goal === 'bodyBuild'">
+                    {{ (userCurrentWeight - auth.user.userStartWeight) > 0 ? userCurrentWeight - auth.user.userStartWeight : 0}} / {{ auth.user.goalWeight - auth.user.userStartWeight }} Кг набранно
+                </span>
+            </ProgressBar>
         </section>
 
         <DefaultSection>
