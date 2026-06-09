@@ -110,10 +110,10 @@
             </ProgressBar>
             <ProgressBar v-if="auth.user?.goal !== 'weightMaintenance'" :style="{ width: auth.user?.goal === 'fit' ? ciloPercentLoss + '%' : ciloPercentPross + '%'}">
                 <span v-if="auth.user?.goal === 'fit'">
-                    {{ auth.user.userStartWeight - userCurrentWeight > 0 ? auth.user.userStartWeight - userCurrentWeight : 0 }} / {{ auth.user.userStartWeight - auth.user.goalWeight }} Кг сброшено
+                    {{ auth.user.userStartWeight - userCurrentWeight > 0 ? (auth.user.userStartWeight - userCurrentWeight).toFixed(2) : 0 }} / {{ (auth.user.userStartWeight - auth.user.goalWeight).toFixed(2) }} Кг сброшено
                 </span>
                 <span v-if="auth.user?.goal === 'bodyBuild'">
-                    {{ (userCurrentWeight - auth.user.userStartWeight) > 0 ? userCurrentWeight - auth.user.userStartWeight : 0}} / {{ auth.user.goalWeight - auth.user.userStartWeight }} Кг набранно
+                    {{ (userCurrentWeight - auth.user.userStartWeight) > 0 ? (userCurrentWeight - auth.user.userStartWeight).toFixed(2) : 0}} / {{ (auth.user.goalWeight - auth.user.userStartWeight).toFixed(2) }} Кг набранно
                 </span>
             </ProgressBar>
         </section>
