@@ -1,10 +1,12 @@
 import { useAuthStore } from '@/stores/authstore'
+import type { WeightHistory } from '@/types/weightHistory'
 import { ref } from 'vue'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export const currentWeight = ref('')
 export const weightIssueMessage = ref('')
+export const weights = ref<WeightHistory[]>([])
 
 export async function fetchWeightHistory() {
     const auth = useAuthStore()

@@ -56,3 +56,21 @@ export async function saveStats(payload: saveStatsPayload) {
         console.log(err)
     }
 }
+
+export async function loadStatsHistory() {
+    try {
+        const auth = useAuthStore()
+        const res = await fetch(`${VITE_API_BASE_URL}/daily-stats/history`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        })
+
+        const data = await res.json()
+
+        return data.result
+    } catch(err) {
+        throw err
+    }
+}

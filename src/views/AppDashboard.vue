@@ -3,16 +3,14 @@
     import FormInput from '@/components/ui/FormInput.vue';
     import NextStepBtn from '@/components/ui/NextStepBtn.vue';
     import DefaultLayout from '@/layout/DefaultLayout.vue';
-    import WeightChart from '@/components/charts/WeightChart.vue';
-    import { chartKey } from '@/keys/chartKey';
     import { fetchWeightHistory, submitWeight, weightIssueMessage } from '@/api/weightApi';
-    import type { WeightHistory } from '@/types/weightHistory';
     import { targetCalories } from '@/services/calories';
     import { loadStats, saveStats, isTodayStatsExist, statsErrors } from '@/api/statsApi';
     import DefaultSection from '@/components/ui/DefaultSection.vue';
+    import WeightChart from '@/components/charts/WeightChart.vue';
+    import { weights } from '@/api/weightApi';
 
 
-    const weights = ref<WeightHistory[]>([])
     const currentWeight = ref('')
     const steps = ref('')
     const burnedCalories = ref('')
@@ -110,14 +108,9 @@
             </template>
         </DefaultSection>
 
-        <DefaultSection>
-            <template #h2Header>
-                График веса
-            </template>
-            <template #mainContent>
-                <WeightChart :weights="weights" :key="chartKey"></WeightChart>
-            </template>
-        </DefaultSection>
+        <WeightChart>
+
+        </WeightChart>
 
         <DefaultSection>
             <template #h2Header>
