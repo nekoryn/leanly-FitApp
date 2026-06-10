@@ -17,11 +17,11 @@
     })
 
     const chartLabels = computed(() =>
-        steps.value.map(item => new Date(item.summary_date).toLocaleDateString())
+        steps?.value.map(item => new Date(item.summary_date).toLocaleDateString())
     )
 
     const chartValues = computed(() =>
-        steps.value.map(item => item.steps)
+        steps?.value.map(item => item.steps)
     )    
 </script>
 
