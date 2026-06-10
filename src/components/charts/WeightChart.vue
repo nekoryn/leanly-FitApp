@@ -10,7 +10,6 @@ import { weights } from '@/api/weightApi';
 
 onMounted(async () => {
     weights.value = await fetchWeightHistory()
-    console.log(weights.value)
 })
 
 const chartLabels = computed(() =>

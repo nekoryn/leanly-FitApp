@@ -69,7 +69,7 @@ export async function loadStatsHistory() {
 
         const data = await res.json()
 
-        return data.result
+        return data
     } catch(err) {
         throw err
     }
