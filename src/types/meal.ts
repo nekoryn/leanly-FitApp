@@ -1,7 +1,7 @@
 export type Meal = {
     mid: number
     user_id: number
-    meal_type: string
+    meal_type: 'breakfast' | 'lunch' | 'dinner' | 'snack';
     meal_name: string
     calories: number
     proteins: number

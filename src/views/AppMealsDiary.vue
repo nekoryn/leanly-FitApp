@@ -3,17 +3,22 @@
     import FormInput from '@/components/ui/FormInput.vue';
     import NextStepBtn from '@/components/ui/NextStepBtn.vue';
     import { loadMeals, submitMeal, loadSummaryMeal } from '@/api/mealsApi.ts';
-    import { onMounted, ref} from 'vue'
+    import { computed, onMounted, ref, useTemplateRef} from 'vue'
     import type { Meal } from '@/types/meal';
     import { isMealsExist } from '@/api/mealsApi.ts';
     import { mealsErrors } from '@/api/mealsApi.ts';
     import DefaultSection from '@/components/ui/DefaultSection.vue';
     import { summaryMeal } from '@/api/mealsApi.ts';
+    import MealSection from '@/components/ui/MealSection.vue';
+    import { useToast } from 'vue-toastification';
+import RedButton from '@/components/ui/RedButton.vue';
 
 
     
     const meals = ref<Meal[]>([])
+    const toast = useToast()
 
+    const dialog = useTemplateRef('mealsDialog')
     const mealType = ref('breakfast')
     const mealName = ref('')
     const calories = ref('')
@@ -27,42 +32,113 @@
     
 
     async function handleSubmitMeal() {
-        await submitMeal({
-            meal_type: mealType.value,
-            meal_name: mealName.value,
-            calories: calories.value,
-            proteins: proteins.value,
-            carbs: carbs.value,
-            fats: fats.value,
-        }, selectedDate.value)
-
-        meals.value = await loadMeals(selectedDate.value)
-        summaryMeal.value = await loadSummaryMeal(selectedDate.value)
-
-        mealName.value = ''
-        calories.value = ''
-        proteins.value = ''
-        fats.value = ''
-        carbs.value = ''
+        try {
+            await submitMeal({
+                meal_type: mealType.value,
+                meal_name: mealName.value,
+                calories: calories.value,
+                proteins: proteins.value,
+                carbs: carbs.value,
+                fats: fats.value,
+            }, selectedDate.value)
+    
+            meals.value = await loadMeals(selectedDate.value)
+            summaryMeal.value = await loadSummaryMeal(selectedDate.value)
+    
+            mealName.value = ''
+            calories.value = ''
+            proteins.value = ''
+            fats.value = ''
+            carbs.value = ''
+    
+            dialog.value?.close()
+            toast.success('Дневник питания обновлен!')
+        } catch (err) {
+            console.log(err)
+            toast.error('Попробуйте еще раз.')
+        }
     }
 
     onMounted(async () => {
         meals.value = await loadMeals(selectedDate.value)
         summaryMeal.value = await loadSummaryMeal(selectedDate.value)
+        console.log(groupedMeals.value)
     })
+
+    type MealGroups = {
+        title: string
+        items: Meal[]
+    }
+
+    const groupedMeals = computed(() => {
+        const order = ['breakfast', 'lunch', 'dinner', 'snack']
+
+        const groups: Record<string, MealGroups> = {
+            breakfast: { title: 'Завтрак', items: []},
+            snack: { title: 'Перекусы', items: []},
+            lunch: { title: 'Обед', items: []},
+            dinner: { title: 'Ужин', items: []}
+        }
+        
+        meals.value?.forEach(meal => {
+            if (groups[meal.meal_type]) {
+                groups[meal.meal_type]?.items.push(meal)
+            }
+        })
+
+        const result = order
+            .map(type => ({ type, ...groups[type] }))
+            .filter(group => group.items ? group.items.length > 0 : false)
+        
+        return result
+    })
+
+    function openDialogClicked() {
+        dialog.value?.showModal()
+    }
+
+    function closeDialogClicked() {
+        dialog.value?.close()
+    }
 
 
 </script>
 
 <template>
     <DefaultLayout>
+        <DefaultSection>
+            <template #h2Header>
+                Дневник питания
+            </template>
+
+            <template #mainContent>
+                <p v-if="!isMealsExist" class="text-xl dark:text-[#c9cbd0] text-center mb-20 mt-20">Похоже вы пока не добавили ни одного блюда</p>
+                <MealSection v-for="group in groupedMeals"
+                    :key="group.type"
+                    :title="group.title || ''"
+                    :meals="group.items || []">
+
+                </MealSection>
+                    <div v-if="isMealsExist">
+                        <p class="text-xl font-semibold md:text-2xl dark:text-[#c9cbd0]">Итого:</p>
+                        <p class="md:text-xl dark:text-[#c9cbd0]">{{ summaryMeal.totalCalories }} Ккал | {{ summaryMeal.totalProteins }} Б {{ summaryMeal.totalFats }} Ж {{ summaryMeal.totalCarbs }} У</p>
+                    </div>
+                    <div class="flex justify-end">
+                        <NextStepBtn @click="openDialogClicked">
+                            Добавить запись в дневник
+                        </NextStepBtn>
+                    </div>
+            </template>
+        </DefaultSection>
+    </DefaultLayout>
+    <dialog ref="mealsDialog" class="fixed m-auto min-w-90 rounded-xl md:min-w-3xl lg:min-w-5xl inset-0 z-2 bg-[#00000000] backdrop:bg-[#cbcfc37f] dark:backdrop:bg-[#0f172a74]">
         <DefaultSection noMargin>
             <template #h2Header>
                 Добавить запись в дневник питания
             </template>
             
             <template #mainContent>
-                <form @submit.prevent="handleSubmitMeal" class="flex flex-col p-2 gap-2 md:p-4 md:gap-4">
+                <form @submit.prevent="handleSubmitMeal" class="flex flex-col p-2 gap-2 md:p-4 md:gap-3">
 
                     <FormInput v-model="mealName" id="mealName" name="mealName" type="text" placeholder="Введите название блюда или блюд" minlength="2" maxlength="100" @validation="mealsErrors.meal_name = $event">
                         <template #inputLabel>
@@ -126,39 +202,18 @@
                             {{ mealsErrors.carbs }}
                         </template>
                     </FormInput>
-    
-                    <NextStepBtn>
-                        Обновить
-                    </NextStepBtn>
+                
+                    <div class="flex justify-between">
+                        <RedButton @click="closeDialogClicked" type="button">
+                            Закрыть
+                        </RedButton>
+                        <NextStepBtn>
+                            Обновить
+                        </NextStepBtn>
+                    </div>
                 </form>
             </template>
 
         </DefaultSection>
-
-        <DefaultSection>
-            <template #h2Header>
-                Дневник питания
-            </template>
-
-            <template #mainContent>
-                <p v-if="!isMealsExist" class="text-xl dark:text-[#c9cbd0] text-center mb-20 mt-20">Похоже вы пока не добавили ни одного блюда</p>
-                <div class="bg-[#cbcfc3] dark:bg-[#0f172a] dark:text-[#c9cbd0] rounded-xl my-2 p-2 md:flex md:justify-between md:items-center" v-for="meal in meals" :key="meal.mid">
-                    <div>
-                        <p class="text-xl font-bold md:text-2xl">{{ meal.meal_name }}</p>
-                        <p class="font-light md:text-xl">{{ meal.meal_type }}</p>
-                        <p class="font-semibold md:text-xl">Калорийность: {{ meal.calories }} ккал</p>
-                    </div>
-                    <div class="hidden md:block w-60 bg-[#f8fdef] dark:bg-[#0a1120] p-2 rounded-xl text-center">
-                        <p class="text-xl font-light">Белки: {{ meal.proteins }} г</p>
-                        <p class="text-xl font-light">Жиры: {{ meal.fats }} г</p>
-                        <p class="text-xl font-light">Углеводы: {{ meal.carbs }} г</p>
-                    </div>
-                </div>
-                <div v-if="isMealsExist">
-                    <p class="text-xl font-semibold md:text-2xl dark:text-[#c9cbd0]">Итого:</p>
-                    <p class="md:text-xl dark:text-[#c9cbd0]">{{ summaryMeal.totalCalories }} Ккал | {{ summaryMeal.totalProteins }} Б {{ summaryMeal.totalFats }} Ж {{ summaryMeal.totalCarbs }} У</p>
-                </div>
-            </template>
-        </DefaultSection>
-    </DefaultLayout>
+    </dialog>
 </template>

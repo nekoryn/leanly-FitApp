@@ -32,7 +32,7 @@ export async function submitMeal(payload: CreateMealPlayload, selectedDate: stri
             mealsErrors.value[String(issue.field)] = issue.message
         });
 
-        console.log(mealsErrors.value)
+        throw mealsErrors.value
     }
 }
 
