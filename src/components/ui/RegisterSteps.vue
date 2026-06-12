@@ -44,5 +44,9 @@ const step3HasError = computed(() => {
         :class="step3HasError ? 'bg-[#efc6c2] dark:bg-[#fb7085]' : 'bg-[#f8fdef] dark:bg-[#0a1120]'">
             3
         </RouterLink>
+        <RouterLink to="/register/step-4" class="flex w-8 h-8 md:w-10 md:h-10 dark:text-white dark:hover:bg-[#3abdf7] dark:active:bg-[#818cf8] hover:bg-[#edd000] hover:shadow-[0_0_20px_#edd000] dark:hover:shadow-[0_0_20px_#3abdf7] active:shadow-[0_0_20px_#419400] dark:active:shadow-[0_0_20px_#818cf8] active:bg-[#419400] duration-100 rounded-3xl items-center justify-center md:*:text-xl"
+        :class="step3HasError ? 'bg-[#efc6c2] dark:bg-[#fb7085]' : 'bg-[#f8fdef] dark:bg-[#0a1120]'">
+            4
+        </RouterLink>
     </div>
 </template>

@@ -12,6 +12,8 @@ export const useRegisterStore = defineStore('register', {
         userAge: '',
         gender: '',
 
+        avatar: null as (File | null),
+
         activity: '',
         goal: '',
         goalWeight: '',

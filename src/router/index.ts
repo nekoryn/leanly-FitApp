@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/AppDashboard.vue'
 import RegStep1 from '@/views/register/RegStep1.vue'
 import RegStep2 from '@/views/register/RegStep2.vue'
-import RegStep3 from '@/views/register/RegStep3.vue'
 import AppProfile from '@/views/AppProfile.vue'
 import AppAuth from '@/views/AppAuth.vue'
 import { useAuthStore } from '@/stores/authstore'
@@ -14,6 +13,8 @@ import SettingsPage from '@/views/Settings/SettingsPage.vue'
 import ProfileSettingsPage from '@/views/Settings/ProfileSettingsPage.vue'
 import SecuritySettingsPage from '@/views/Settings/SecuritySettingsPage.vue'
 import AppearanceSettingsPage from '@/views/Settings/AppearanceSettingsPage.vue'
+import RegStep4 from '@/views/register/RegStep4.vue'
+import RegStep3 from '@/views/register/RegStep3.vue'
 
 
 const router = createRouter({
@@ -22,7 +23,8 @@ const router = createRouter({
     { path: '/', component: Dashboard, meta: { requiersAuth: true} },
     { path: '/register/step-1', component: RegStep1, meta: { guestOnly: true } }, 
     { path: '/register/step-2', component: RegStep2, meta: { guestOnly: true, requireRegisterStep1: true } },
-    { path: '/register/step-3', component: RegStep3, meta: { guestOnly: true, requireRegisterStep1: true, requireRegisterStep2: true } },
+    { path: '/register/step-3', component: RegStep3, meta: { guestOnly: true}},
+    { path: '/register/step-4', component: RegStep4, meta: { guestOnly: true, requireRegisterStep1: true, requireRegisterStep2: true } },
     { path: '/profile', component: AppProfile, meta: { requiersAuth: true} },
     { path: '/auth', component: AppAuth, meta: { guestOnly: true } },
     { path: '/graphs', component: AppGraphs, meta: { requiersAuth: true} },

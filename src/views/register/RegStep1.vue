@@ -6,8 +6,8 @@
     import FormInput from '@/components/ui/FormInput.vue';
     import FormHeader from '@/components/ui/FormHeader.vue';
     import RegAuthLink from '@/components/ui/RegAuthLink.vue';
-import RegisterSteps from '@/components/ui/RegisterSteps.vue';
-import { registerErrors } from '@/api/registerApi/registerFinallApi';
+    import RegisterSteps from '@/components/ui/RegisterSteps.vue';
+    import { registerErrors } from '@/api/registerApi/registerFinallApi';
 
 
     const router = useRouter();

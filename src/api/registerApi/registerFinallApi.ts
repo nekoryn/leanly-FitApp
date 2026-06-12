@@ -10,17 +10,28 @@ export const registerErrors = ref<Record<string, string>>({})
 
 export const submitReg = async () => {
     const register = useRegisterStore();
-    const payload = {
-        ...register.$state,
-        userWeight: Number(register.userWeight),
-        userHeight: Number(register.userHeight),
-        userAge: Number(register.userAge),
-        goalWeight: Number(register.goalWeight),
+
+    const formData = new FormData()
+
+    formData.append('nickname', register.nickname);
+    formData.append('email', register.email);
+    formData.append('password', register.password);
+    formData.append('gender', register.gender);
+    formData.append('activity', register.activity);
+    formData.append('goal', register.goal);
+
+    formData.append('userWeight', String(Number(register.userWeight)));
+    formData.append('userHeight', String(Number(register.userHeight)));
+    formData.append('userAge', String(Number(register.userAge)));
+    formData.append('goalWeight', String(Number(register.goalWeight)));
+
+    if (register.avatar) {
+        formData.append('avatar', register.avatar);
     }
+
     const res = await fetch(`${API_BASE_URL}/register`, {
         method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: formData
     })
 
     const data = await res.json()
@@ -39,6 +50,10 @@ export const submitReg = async () => {
 
     if (data.field === 'nickname' && res.status === 400) {
         registerErrors.value['nickname'] = 'Пользователь с таким nickname уже существует!'
+        throw new Error(data.message)
+    }
+
+    if (res.status === 500) {
         throw new Error(data.message)
     }
 

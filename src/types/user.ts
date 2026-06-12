@@ -10,4 +10,5 @@ export type User = {
     goal: string
     goalWeight: number
     userStartWeight: number
+    user_avatar: string
 }
