@@ -16,7 +16,7 @@ const AVATAR_BASE_URL = import.meta.env.VITE_AVATAR_BASE_URL
 
 const avatarUrl = computed(() => {
     const isDark = localStorage.getItem('theme') === 'dark' ? true : false
-    if (auth.user?.user_avatar === 'default_avatar.webp') {
+    if (auth.user?.user_avatar === ' ') {
         return isDark
             ? `${AVATAR_BASE_URL}/uploads/avatars/dark_default_avatar.webp`
             : `${AVATAR_BASE_URL}/uploads/avatars/default_avatar.webp`;
