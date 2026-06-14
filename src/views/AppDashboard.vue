@@ -93,7 +93,7 @@ onMounted(async () => {
                 Обновить показатели</h2>
             <div class="flex flex-col md:flex-row gap-3 md:gap-2 lg:gap-3">
                 <StatsCard v-model="steps" title="Шаги за сегодня" btnText="Сохранить" inputId="stepsCardInput"
-                    inputName="steps" placeholder="+ шаги" :min="0" :max="200000"
+                    inputName="steps" placeholder="Введите шаги" :min="0" :max="200000"
                     @validation="statsErrors.steps = $event" @submit="handleSaveSteps">
                     <template #displayValue>
                         <div class="flex items-baseline gap-1">

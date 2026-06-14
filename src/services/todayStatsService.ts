@@ -27,13 +27,10 @@ export async function refreshStats() {
 
 export async function saveSteps() {
     if (steps.value === '' || statsErrors.value.steps) return;
-
-    const currentSteps = todayStats.value?.steps || 0;
-    const newSteps = currentSteps + Number(steps.value)
     
     await saveStats({
         summary_date: selectedDate.value,
-        steps: newSteps,
+        steps: Number(steps.value),
         burned_calories: todayStats.value?.burned_calories || 0,
         water_ml: todayStats.value?.water_ml || 0
     });
