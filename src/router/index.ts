@@ -15,6 +15,7 @@ import SecuritySettingsPage from '@/views/Settings/SecuritySettingsPage.vue'
 import AppearanceSettingsPage from '@/views/Settings/AppearanceSettingsPage.vue'
 import RegStep4 from '@/views/register/RegStep4.vue'
 import RegStep3 from '@/views/register/RegStep3.vue'
+import RecepieDetail from '@/views/RecepieDetail.vue'
 
 
 const router = createRouter({
@@ -65,6 +66,12 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/recepies/:rid',
+      name: 'recepie-detail',
+      component: RecepieDetail,
+      props: true
+    }
   ],
 })
 
