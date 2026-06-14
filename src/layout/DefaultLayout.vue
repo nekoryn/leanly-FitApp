@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <div class="min-h-dvh grid grid-rows-[auto_1fr_auto] bg-[#e1e6d9] dark:bg-[#0a1120]">
+    <div class="min-h-dvh grid grid-rows-[auto_1fr_auto] bg-[#e1e6d9] dark:bg-[#0c1425]">
         <AppHeader>
     
         </AppHeader>
