@@ -21,7 +21,6 @@ const avatarUrl = computed(() => {
             ? `${AVATAR_BASE_URL}/uploads/avatars/dark_default_avatar.webp`
             : `${AVATAR_BASE_URL}/uploads/avatars/default_avatar.webp`;
     }
-    // Если аватарка кастомная, отдаем её как обычно
     return `${AVATAR_BASE_URL}/uploads/avatars/${auth.user?.user_avatar}`;
 });
 

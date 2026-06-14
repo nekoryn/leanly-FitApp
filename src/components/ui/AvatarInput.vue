@@ -1,9 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useAuthStore } from '@/stores/authstore';
+import { computed, ref } from 'vue';
 
 defineProps<{
     modelValue: File | null
 }>()
+
+const auth = useAuthStore()
+const AVATAR_BASE_URL = import.meta.env.VITE_AVATAR_BASE_URL
+
+const avatarUrl = computed(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' ? true : false
+    if (auth.user?.user_avatar === ' ') {
+        return isDark
+            ? `${AVATAR_BASE_URL}/uploads/avatars/dark_default_avatar.webp`
+            : `${AVATAR_BASE_URL}/uploads/avatars/default_avatar.webp`;
+    }
+    return `${AVATAR_BASE_URL}/uploads/avatars/${auth.user?.user_avatar}`;
+});
 
 const emit = defineEmits<{
     (e: 'update:modelValue', file: File | null): void
@@ -47,9 +61,9 @@ function processFile(file: File) {
 
         <input type="file" accept="image/*" class="hidden" id="avatar-input" @change="onFileSelect" />
 
-        <div v-if="previewUrl" class="relative group w-60 h-60">
-            <img :src="previewUrl" alt="Preview"
-                class="w-full h-full rounded-full object-cover border-2 border-emerald-500 shadow-md" />
+        <div v-if="previewUrl || auth.user?.user_avatar" class="relative group w-60 h-60">
+            <img :src="previewUrl ? previewUrl : avatarUrl" alt="Preview"
+                class="w-full h-full rounded-full object-cover border-2 border-[#419400] dark:border-[#3abdf7] shadow-md" />
 
             <label for="avatar-input"
                 class="absolute inset-0 w-full h-full rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer flex flex-col items-center justify-center text-white text-xs md:text-sm font-medium text-center p-2">
