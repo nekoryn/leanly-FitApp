@@ -52,7 +52,7 @@ const avatarUrl = computed(() => {
             ? `${AVATAR_BASE_URL}/uploads/avatars/dark_default_avatar.webp`
             : `${AVATAR_BASE_URL}/uploads/avatars/default_avatar.webp`;
     }
-    return `${AVATAR_BASE_URL}/uploads/avatars/${auth.user?.user_avatar}`;
+    return `${AVATAR_BASE_URL}/uploads/avatars/${recipe.value?.user_avatar}`;
 });
 
 onMounted(async () => {
