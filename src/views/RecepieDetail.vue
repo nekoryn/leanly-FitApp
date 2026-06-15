@@ -5,7 +5,7 @@ import DefaultLayout from '@/layout/DefaultLayout.vue';
 import { useAuthStore } from '@/stores/authstore';
 import { useRecepieStore } from '@/stores/recepieStore';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 
@@ -25,6 +25,7 @@ const recipe = computed(() => {
 });
 
 const router = useRouter()
+const isLoading = ref(true);
 
 function backToRecipies() {
     router.push('/recepies')
@@ -55,19 +56,39 @@ const avatarUrl = computed(() => {
 });
 
 onMounted(async () => {
-    if (recipesList.value.length === 0) {
-        const data = await loadRecepies();
-        recipesList.value = data;
+    try {
+        if (recipesList.value.length === 0) {
+            const data = await loadRecepies();
+            recipesList.value = data;
+        }
+    } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Не удалось загрузить данные';
+        console.warn('Не удалось загрузить рецепты со своего API:', errorMessage);
+        toast.error('Список рецептов пуст или недоступен.');
+        router.replace('/recepies');
+        return;
     }
 
-    
+    console.log('Найденный рецепт:', recipe.value);
+
+    if (!recipe.value) {
+        toast.error('Рецепт не найден или был удален.');
+        router.replace('/recepies'); 
+    }
+
+    isLoading.value = false
 });
 </script>
 
 <template>
     <DefaultLayout>
+        <div v-if="isLoading" class="flex justify-center items-center min-h-100 text-xl dark:text-[#c9cbd0]">
+            <p>Загрузка рецепта...</p> 
+        </div>
+
         <div
-            class="flex flex-col items-center w-90 md:w-3xl lg:w-5xl bg-[#f8fdef] dark:bg-[#0a1120] dark:text-[#c9cbd0] min-h-100 rounded-xl p-5">
+            class="flex flex-col items-center w-90 md:w-3xl lg:w-5xl bg-[#f8fdef] dark:bg-[#0a1120] dark:text-[#c9cbd0] min-h-100 rounded-xl p-5" 
+            v-else-if="recipe">
             <RedButton class="self-start mb-5" @click="backToRecipies">
                 Назад к рецептам
             </RedButton>

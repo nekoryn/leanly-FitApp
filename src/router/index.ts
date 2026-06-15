@@ -26,7 +26,7 @@ const router = createRouter({
     { path: '/register/step-2', component: RegStep2, meta: { guestOnly: true, requireRegisterStep1: true } },
     { path: '/register/step-3', component: RegStep3, meta: { guestOnly: true, requireRegisterStep1: true, requireRegisterStep2: true}},
     { path: '/register/step-4', component: RegStep4, meta: { guestOnly: true, requireRegisterStep1: true, requireRegisterStep2: true}},
-    { path: '/profile', component: AppProfile, meta: { requiersAuth: true} },
+    { path: '/profile', component: AppProfile, meta: { requiersAuth: true } },
     { path: '/auth', component: AppAuth, meta: { guestOnly: true } },
     { path: '/graphs', component: AppGraphs, meta: { requiersAuth: true} },
     { path: '/recepies', component: AppRecepies, meta: { requiersAuth: true} }, 
