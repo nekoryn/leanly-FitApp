@@ -12,4 +12,5 @@ export type User = {
     userStartWeight: number
     user_avatar: string
     avg_steps: string
+    role: string
 }

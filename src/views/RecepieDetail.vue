@@ -49,6 +49,8 @@ onMounted(async () => {
         const data = await loadRecepies();
         recipesList.value = data;
     }
+
+    
 });
 </script>
 
@@ -89,7 +91,7 @@ onMounted(async () => {
                     <p class="font-semibold md:text-xl">{{ recipe?.nickname }}</p>
                 </div>
 
-                <div v-if="auth.user?.uid === recipe?.user_id"
+                <div v-if="(auth.user?.uid === recipe?.user_id) || (auth.user?.role === 'admin')"
                     class="h-full flex items-center p-2 gap-2 bg-[#cbcfc3] dark:bg-[#0f172a] rounded-xl">
                     <button @click="deliteBtnClicked" class="bg-red-300 p-2 rounded-xl cursor-pointer border-3 border-red-300 hover:bg-transparent transition-colors duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
