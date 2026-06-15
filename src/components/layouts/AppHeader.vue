@@ -23,7 +23,7 @@
                     class="flex flex-col gap-5 mt-20 ml-4 md:mt-0 md:mx-auto md:flex-row">
                     <HeaderNavLink to="/">Главная</HeaderNavLink>
                     <HeaderNavLink to="/meals-diary">Дневник питания</HeaderNavLink>
-                    <HeaderNavLink to="/profile">Профиль</HeaderNavLink>
+                    <HeaderNavLink :to="`/profile/${auth.user.uid}`">Профиль</HeaderNavLink>
                     <HeaderNavLink to="/graphs">Графики</HeaderNavLink>
                     <HeaderNavLink to="/recepies">Рецепты</HeaderNavLink>
                 </div>

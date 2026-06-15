@@ -15,12 +15,14 @@ const password = ref('');
 const router = useRouter()
 
 async function handleSubmitAuth() {
-    await submitAuth({
+    const uid = await submitAuth({
         email: email.value,
         password: password.value,
     })
 
-    router.push('/profile');
+    console.log(uid)
+
+    router.push(`/profile/${uid}`);
 }
 
 </script>

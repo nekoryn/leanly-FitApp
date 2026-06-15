@@ -22,10 +22,11 @@ export const submitAuth = async (payload: AuthPayload) => {
         }) 
     
         const data = await res.json();
-    
-        if (data.token) {
-            auth.setToken(data.token)
+        
+        if (data.result.token) {
+            auth.setToken(data.result.token)
             toast.success('Успешный вход!')
+            return data.result.uid
         }
 
         if (res.status === 422) {
