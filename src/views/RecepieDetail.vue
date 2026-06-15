@@ -98,7 +98,7 @@ onMounted(async () => {
                 <div class="flex items-center gap-4 bg-[#cbcfc3] dark:bg-[#0f172a] p-2 rounded-xl">
                     <img class="w-15 h-15 border-2 border-[#419400] dark:border-[#3abdf7] rounded-full md:w-20 md:h-20 object-cover"
                         :src="`${avatarUrl}`" alt="">
-                    <p class="font-semibold md:text-xl">{{ recipe?.nickname }}</p>
+                    <p class="font-semibold md:text-xl">{{ recipe?.nickname ? recipe?.nickname : 'Удаленный аккаунт'}}</p>
                 </div>
 
                 <div v-if="(auth.user?.uid === recipe?.user_id) || (auth.user?.role === 'admin')"
