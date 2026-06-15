@@ -44,6 +44,16 @@ function deliteBtnClicked() {
     }
 }
 
+const avatarUrl = computed(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' ? true : false
+    if (auth.user?.user_avatar === ' ') {
+        return isDark
+            ? `${AVATAR_BASE_URL}/uploads/avatars/dark_default_avatar.webp`
+            : `${AVATAR_BASE_URL}/uploads/avatars/default_avatar.webp`;
+    }
+    return `${AVATAR_BASE_URL}/uploads/avatars/${auth.user?.user_avatar}`;
+});
+
 onMounted(async () => {
     if (recipesList.value.length === 0) {
         const data = await loadRecepies();
@@ -86,21 +96,21 @@ onMounted(async () => {
             </div>
             <div class="flex justify-between items-center w-full my-2">
                 <div class="flex items-center gap-4 bg-[#cbcfc3] dark:bg-[#0f172a] p-2 rounded-xl">
-                    <img class="w-15 h-15 rounded-full md:w-20 md:h-20 object-cover"
-                        :src="`${AVATAR_BASE_URL}/uploads/avatars/${recipe?.user_avatar}`" alt="">
+                    <img class="w-15 h-15 border-2 border-[#419400] dark:border-[#3abdf7] rounded-full md:w-20 md:h-20 object-cover"
+                        :src="`${avatarUrl}`" alt="">
                     <p class="font-semibold md:text-xl">{{ recipe?.nickname }}</p>
                 </div>
 
                 <div v-if="(auth.user?.uid === recipe?.user_id) || (auth.user?.role === 'admin')"
                     class="h-full flex items-center p-2 gap-2 bg-[#cbcfc3] dark:bg-[#0f172a] rounded-xl">
-                    <button @click="deliteBtnClicked" class="bg-red-300 p-2 rounded-xl cursor-pointer border-3 border-red-300 hover:bg-transparent transition-colors duration-100">
+                    <button @click="deliteBtnClicked" class="bg-red-300 dark:bg-[#fb7085] p-2 rounded-xl cursor-pointer border-3 border-red-300 dark:border-[#fb7085] dark:text-black dark:hover:text-[#cdd0d4] hover:bg-transparent transition-colors duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                         </svg>
                     </button>
-                    <button class="p-2 rounded-xl bg-[#419400] cursor-pointer border-3 border-[#419400] hover:bg-transparent transition-colors duration-100">
+                    <button class="p-2 rounded-xl bg-[#419400] dark:bg-[#3abdf7] cursor-pointer border-3 border-[#419400] dark:border-[#3abdf7] dark:text-black dark:hover:text-[#cdd0d4] hover:bg-transparent transition-colors duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
