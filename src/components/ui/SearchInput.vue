@@ -12,7 +12,7 @@
             </div>
 
             <input
-                class="p-2 pl-10 pr-14 w-70 border-2 appearance-none border-[#cbcfc3] dark:bg-[#13203a] dark:border-[#13203a] bg-[#cbcfc3] hover:bg-[#afb2a8] dark:hover:bg-[#1e325b] dark:hover:border-[#1e325b] hover:border-[#afb2a8] focus:border-[#419400] dark:focus:border-[#3abdf7] user-invalid:border-[#f83a57] dark:user-invalid:border-[#fb7085] rounded-xl outline-0 transition-colors duration-100 md:text-xl lg:p-3 lg:pl-12 lg:pr-16"
+                class="p-2 pl-10 pr-4 w-70 border-2 appearance-none border-[#cbcfc3] dark:bg-[#13203a] dark:border-[#13203a] bg-[#cbcfc3] hover:bg-[#afb2a8] dark:hover:bg-[#1e325b] dark:hover:border-[#1e325b] hover:border-[#afb2a8] focus:border-[#419400] dark:focus:border-[#3abdf7] user-invalid:border-[#f83a57] dark:user-invalid:border-[#fb7085] rounded-xl outline-0 transition-colors duration-100 md:text-xl lg:p-3 lg:pl-12 lg:pr-8"
                 :id="id"
                 :name="name"
                 type="search"
@@ -26,22 +26,7 @@
                 @input="onInput"
                 @search="onSearchClear"
                 @keydown.enter="onSubmit"
-                />
-
-            <div class="absolute right-2 top-0 h-full flex items-center">
-                <button 
-                    class="flex items-center justify-center p-1.5 duration-100 w-8 h-8 lg:w-10 lg:h-10 rounded-xl cursor-pointer text-white
-                        bg-[#419400] hover:bg-[#347500] active:bg-[#275800] 
-                        dark:bg-[#3abdf7] dark:hover:bg-[#0ea5e9] dark:active:bg-[#0284c7]" 
-                    type="button"
-                    title="Найти"
-                    @click="onSubmit"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 lg:w-5 lg:h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </button>
-            </div>
+            />
         </div>
 
         <p class="text-[#fb7085] ml-2 my-2" v-if="$slots.inputError">
@@ -85,7 +70,6 @@ const onInput = (e: Event) => {
         emit('validation', '')
     }
 }
-
 
 const onSubmit = () => {
     emit('submit-search', props.modelValue || '')

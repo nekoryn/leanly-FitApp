@@ -12,7 +12,7 @@ const router = useRouter()
 
 
 const recipeStore = useRecepieStore()
-const { recipesList } = storeToRefs(recipeStore)
+const { filterRecepies, recipesList } = storeToRefs(recipeStore)
 
 const onAddRecipe = (rid: number | string) => {
     console.log(`Добавляем в план рецепт с ID: ${rid}`);
@@ -32,21 +32,28 @@ onMounted(async () => {
 
 <template>
     <RecepiesLayout>
-        <div v-if="recipesList.length > 0" class="grid grid-cols-1 gap-4 justify-center md:grid-cols-3">
-            <RecepieCard 
-                v-for="recepie in recipesList" 
-                :key="recepie.rid" 
-                :id="recepie.rid" 
-                :title="recepie.title" 
-                :imageSrc="recepie.recepie_image && recepie.recepie_image.trim() !== ''
-                    ? `${AVATAR_BASE_URL}/uploads/recepies/${recepie.recepie_image}`
-                    : `${AVATAR_BASE_URL}/uploads/recepies/default_recipe.webp`" 
-                @add="onAddRecipe" 
-                @open="onOpenRecipe"
-            >
-            </RecepieCard>
+        <div v-if="recipesList.length > 0" class="flex flex-col gap-4 w-full">
+            
+            <div v-if="filterRecepies.length > 0" class="grid grid-cols-1 gap-4 justify-center md:grid-cols-3">
+                <RecepieCard 
+                    v-for="recepie in filterRecepies" 
+                    :key="recepie.rid" 
+                    :id="recepie.rid" 
+                    :title="recepie.title" 
+                    :imageSrc="recepie.recepie_image && recepie.recepie_image.trim() !== ''
+                        ? `${AVATAR_BASE_URL}/uploads/recepies/${recepie.recepie_image}`
+                        : `${AVATAR_BASE_URL}/uploads/recepies/default_recipe.webp`" 
+                    @add="onAddRecipe" 
+                    @open="onOpenRecipe"
+                >
+                </RecepieCard>
+            </div>
+    
+            <div class="mt-35 text-center" v-else>
+                <p class="md:text-xl">По вашему запросу ничего не найдено</p>
+            </div>
         </div>
-
+        
         <div class="mt-35 text-center" v-else>
             <p class="md:text-xl">Похоже рецептов пока нет. Будьте первым, кто их добавит!</p>
         </div>

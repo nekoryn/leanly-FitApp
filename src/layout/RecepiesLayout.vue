@@ -5,10 +5,12 @@
     <div class="flex flex-col min-h-dvh lg:flex-row lg:w-5xl lg:mx-auto lg:gap-1">
         <RecepiesNabbar>
             <template #content>
-                <SearchInput v-model="searchQuery" id="recepies-search" @submit-search="handleSearch"
-                    @clear="handleClear">
-
-                </SearchInput>
+                <form @submit.prevent="handleSearch">
+                    <SearchInput v-model="searchQuery" id="recepies-search" @submit-search="handleSearch"
+                        @clear="handleClear">
+    
+                    </SearchInput>
+                </form>
                 <NextStepBtn noMargin class="mt-20" @click="openDialogClicked">
                     Добавить рецепт
                 </NextStepBtn>
@@ -101,20 +103,20 @@ import RecepieImgInput from '@/components/ui/RecepieImgInput.vue';
 import RedButton from '@/components/ui/RedButton.vue';
 import SearchInput from '@/components/ui/SearchInput.vue';
 import { useRecepieStore } from '@/stores/recepieStore';
-import { computed, ref, useTemplateRef } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed, useTemplateRef } from 'vue';
 import { useToast } from 'vue-toastification';
 
-const searchQuery = ref('');
 const toast = useToast()
 
 const dialog = useTemplateRef('recepiesDialog')
 
 const resepie = useRecepieStore()
-
-const handleSearch = (query: string) => {
-    console.log('Ищем рецепты по запросу:', query);
+const { searchQuery } = storeToRefs(resepie)
 
 
+const handleSearch = () => {
+    console.log('Ищем рецепты по запросу:', searchQuery.value);
 };
 
 const AddRecepie = async () => {
