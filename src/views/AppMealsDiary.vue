@@ -11,7 +11,7 @@
     import { summaryMeal } from '@/api/mealsApi.ts';
     import MealSection from '@/components/ui/MealSection.vue';
     import { useToast } from 'vue-toastification';
-import RedButton from '@/components/ui/RedButton.vue';
+    import RedButton from '@/components/ui/RedButton.vue';
 
 
     

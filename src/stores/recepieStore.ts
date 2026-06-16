@@ -1,3 +1,4 @@
+import { loadRecepies } from '@/api/recepiesApi';
 import type { recepiesList } from '@/types/recepiesListType';
 import { defineStore } from 'pinia';
 
@@ -51,6 +52,22 @@ export const useRecepieStore = defineStore('resepies', {
             this.fats = '';
             this.carbs = '';
             this.calories = '';
+        },
+        deleteRecipeFromList(rid: number | string) {
+            this.recipesList = this.recipesList.filter(item => item.rid !== rid)
+        },
+        async fetchRecipes() {
+            try {
+                const data = await loadRecepies()
+                this.recipesList = data;
+            } catch (err) {
+                if (err instanceof Error && err.message === 'Рецепты не найдены') {
+                    this.recipesList = [];
+                } else {
+                    console.error('Ошибка при загрузке рецептов в стор:', err);
+                    throw err;
+                }
+            }
         }
     }
 });

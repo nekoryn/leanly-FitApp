@@ -31,11 +31,12 @@ function backToRecipies() {
     router.push('/recepies')
 }
 
-function deliteBtnClicked() {
+async function deliteBtnClicked() {
     try {
         console.log('Удаляем статью с rid:', recipe?.value?.rid)
         if (recipe?.value?.rid) {
-            deleteRecipe(recipe?.value?.rid)
+            await deleteRecipe(recipe?.value?.rid)
+            recipeStore.deleteRecipeFromList(recipe.value.rid);
         }
         toast.success('Рецепт удален успешно!')
         router.push('/recepies')

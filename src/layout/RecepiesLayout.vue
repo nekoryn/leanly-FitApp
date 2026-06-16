@@ -19,7 +19,7 @@
         <main
             class="w-90 min-h-100 h-fit dark:bg-[#0a1120] dark:text-[#c9cbd0] bg-[#f8fdef] p-4 my-1 rounded-2xl mx-auto md:w-3xl lg:flex-1 lg:rounded-tl-none transition-colors duration-100">
             <h1 class="text-2xl mb-4 font-bold lg:mb-6 md:text-3xl">Рецепты</h1>
-            <slot>
+            <slot name="mainContent">
 
             </slot>
         </main>
@@ -85,6 +85,9 @@
             </template>
         </DefaultSection>
     </dialog>
+    <slot name="dialogContent">
+
+    </slot>
     <AppFooter>
 
     </AppFooter>
@@ -114,6 +117,8 @@ const dialog = useTemplateRef('recepiesDialog')
 const resepie = useRecepieStore()
 const { searchQuery } = storeToRefs(resepie)
 
+const recipeStore = useRecepieStore()
+
 
 const handleSearch = () => {
     console.log('Ищем рецепты по запросу:', searchQuery.value);
@@ -122,6 +127,7 @@ const handleSearch = () => {
 const AddRecepie = async () => {
     try {
         await createRecepie()
+        await recipeStore.fetchRecipes()
         closeDialogClicked()
     } catch (err) {
         console.log(err)
@@ -144,5 +150,6 @@ function openDialogClicked() {
 
 function closeDialogClicked() {
     dialog.value?.close()
+    recipeStore.resetForm()
 }
 </script>
