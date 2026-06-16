@@ -91,7 +91,7 @@ function logoutClicked() {
                 <p class="dark:text-[#c9cbd0] w-fit text-2xl font-bold md:text-3xl">{{ displayUser.nickname }}</p>
                 
                 <div class="mt-2 mb-4 w-full flex flex-1 flex-col gap-4 md:flex-row">
-                    <div class="flex flex-col justify-center dark:text-[#c9cbd0] bg-[#e1e6d9] dark:bg-[#0c1425] p-4 rounded-xl md:w-90 transition-colors duration-100">
+                    <div v-if="isMyProfile" class="flex flex-col justify-center dark:text-[#c9cbd0] bg-[#e1e6d9] dark:bg-[#0c1425] p-4 rounded-xl md:w-90 transition-colors duration-100">
                         <h2 class="text-xl dark:text-[#c9cbd0] font-bold md:text-2xl">Текущие показатели</h2>
                         <p class="md:text-xl">Вес: {{ displayUser.userWeight }} Кг Рост: {{ displayUser.userHeight }} См</p>
                         
@@ -107,7 +107,7 @@ function logoutClicked() {
                     </div>
                 </div>
                 
-                <div class="dark:text-[#c9cbd0] w-full bg-[#e1e6d9] dark:bg-[#0c1425] p-4 rounded-xl mb-2 transition-colors duration-100">
+                <div v-if="isMyProfile" class="dark:text-[#c9cbd0] w-full bg-[#e1e6d9] dark:bg-[#0c1425] p-4 rounded-xl mb-2 transition-colors duration-100">
                     <p class="md:text-xl">До желаемого веса осталось: {{ calculateWeightLeft(displayUser) ?? '' }} Кг</p>
                 </div>
 
