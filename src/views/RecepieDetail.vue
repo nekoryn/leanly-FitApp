@@ -196,7 +196,7 @@ async function updateRecipe() {
                 class="fixed m-auto min-w-90 rounded-xl md:min-w-3xl lg:min-w-5xl inset-0 z-2 bg-[#00000000] backdrop:bg-[#cbcfc37f] dark:backdrop:bg-[#0f172a74]">
                 <DefaultSection noMargin>
                     <template #h2Header>
-                        Добавить рецепт
+                        Редактировать рецепт
                     </template>
 
                     <template #mainContent>
