@@ -149,7 +149,7 @@ async function updateRecipe() {
                     <p>У: {{ recipe?.carbs }}</p>
                 </div>
                 <p class="font-bold md:text-xl lg:text-2xl">Ккал на одну порцию: {{ recipe?.calories }}</p>
-                <p class="my-2 font-light text-left md:text-xl md:my-4 lg:text-2xl lg:my-6"><span
+                <p class="my-2 font-light text-left md:text-xl md:my-4 lg:text-2xl lg:my-6 whitespace-pre-line leading-relaxed"><span
                         class="font-bold">Описание:</span> {{ recipe?.description }}</p>
             </div>
             <div class="w-full">
