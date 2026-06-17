@@ -36,8 +36,6 @@ export const createRecepie = async () => {
         formData.append('carbs', recepie.carbs)
         formData.append('calories', recepie.calories)
 
-        console.log(formData)
-
         const res = await fetch(`${API_BASE_URL}/recepies/add`, {
             method: 'POST',
             headers: {
@@ -101,6 +99,54 @@ export const deleteRecipe = async (rid: number) => {
         const data = await res.json
 
         return data
+    } catch (err) {
+        throw err
+    }
+}
+
+export const updateRecipes = async (rid: number) => {
+    const auth = useAuthStore()
+    const recepie = useRecepieStore()
+    
+    const formData = new FormData()
+
+    formData.append('title', recepie.title)
+
+    if (recepie.recepie_image) {
+        formData.append('recepie_image', recepie.recepie_image)
+    }
+
+    formData.append('description', recepie.description)
+    formData.append('ingredients', recepie.ingredients)
+    formData.append('main_text', recepie.main_text)
+
+    formData.append('proteins', recepie.proteins)
+    formData.append('fats', recepie.fats)
+    formData.append('carbs', recepie.carbs)
+    formData.append('calories', recepie.calories)
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/recepies/edit/${rid}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            },
+            body: formData
+        })
+
+        const data = await res.json()
+        
+        if (res.status === 500) {
+            throw new Error('Ошибка! Не удалось обновить данные.')
+        }
+
+        if (res.status === 422) {
+            data.issues.forEach((issue: ValidationIssue) => {
+                recepieErrors.value[String(issue.field)] = issue.message
+            })
+            throw new Error('Ошибка! Не удалось обновить данные.')
+        }
+        recepie.resetForm()
     } catch (err) {
         throw err
     }

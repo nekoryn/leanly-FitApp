@@ -63,7 +63,7 @@ const loadProfileData = async () => {
     }
 };
 
-// Следим за изменением параметров роута (если перешли из чужого профиля в свой)
+
 watch(() => route.params.uid, () => {
     loadProfileData();
 }, { immediate: true });

@@ -10,9 +10,9 @@
             @change="onFileSelect" 
         />
 
-        <div v-if="previewUrl" class="relative group w-50 h-50 md:w-70 md:h-70 lg:w-80 lg:h-80">
+        <div v-if="displayImageUrl" class="relative group w-50 h-50 md:w-70 md:h-70 lg:w-80 lg:h-80">
             <img 
-                :src="previewUrl" 
+                :src="displayImageUrl" 
                 alt="Preview"
                 class="w-full h-full rounded-2xl object-cover border-2 border-[#419400] dark:border-[#3abdf7] shadow-md" 
             />
@@ -59,10 +59,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
-defineProps<{
-    modelValue: File | null
+const props = defineProps<{
+    modelValue: File | string | null
+    oldImage?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -71,6 +72,9 @@ const emit = defineEmits<{
 
 const isDragActive = ref(false);
 const previewUrl = ref<string | null>(null);
+const AVATAR_BASE_URL = import.meta.env.VITE_AVATAR_BASE_URL
+
+
 
 function onDragEnter() { isDragActive.value = true; }
 function onDragLeave() { isDragActive.value = false; }
@@ -99,4 +103,15 @@ function processFile(file: File) {
     previewUrl.value = URL.createObjectURL(file);
     emit('update:modelValue', file);
 }
+
+
+const displayImageUrl = computed(() => {
+    if (previewUrl.value) {
+        return previewUrl.value;
+    }
+    if (props.oldImage) {
+        return `${AVATAR_BASE_URL}/uploads/recepies/${props.oldImage}`;
+    }
+    return null;
+});
 </script>
