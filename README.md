@@ -7,7 +7,7 @@
 ## 🌐 Полезные ссылки
 
 * **Live Demo:** [https://leanly-mu.vercel.app/](https://leanly-mu.vercel.app/)
-* **Репозиторий бэкенда:** [LeanlyBACKEND](https://github.com/zularx/LeanlyBACKEND)
+* **Репозиторий бэкенда:** [LeanlyBackend](https://github.com/nekoryn/LeanlyBackend)
 
 ---
 
